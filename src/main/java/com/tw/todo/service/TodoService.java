@@ -20,4 +20,17 @@ public class TodoService {
 
         return todoList;
     }
+
+    public Todo update(Todo updatedTodo) {
+
+        todoList.removeIf(todo -> todo.getTodoId() == updatedTodo.getTodoId());
+        todoList.add(updatedTodo);
+
+        for (Todo todo : todoList) {
+            if (todo.getTodoId() == updatedTodo.getTodoId()) {
+                return todo;
+            }
+        }
+        return null;
+    }
 }
