@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class TodoServiceTest {
 
     @Test
-    void toGetListOfTodos(){
+    void shouldBeAbleToGetAListOfTodos(){
         TodoService todoService = new TodoService();
 
         List<Todo> listOfTodos = new ArrayList<Todo>();
@@ -23,7 +23,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void toAddATaskToListOfTodos(){
+    void shouldBeAbleToAddATaskToListOfTodos(){
         TodoService todoService = new TodoService();
         List<Todo> listOfTodos = new ArrayList<Todo>();
 
@@ -32,6 +32,27 @@ class TodoServiceTest {
         firstTodo.setTodoId(listOfTodos.size());
         listOfTodos.add(firstTodo);
 
+        assertThat(Objects.equals(todoService.getListOfTodos(), listOfTodos), equalTo(true));
+    }
+
+    @Test
+    void shouldBeAbleToUpdateAnExistingTodo(){
+        TodoService todoService = new TodoService();
+        List<Todo> listOfTodos = new ArrayList<>();
+
+        Todo firstTodo = new Todo();
+        firstTodo.setTodoName("First Task");
+        Todo secondTodo = new Todo();
+        secondTodo.setTodoName("Second Task");
+        todoService.add(firstTodo);
+        todoService.add(secondTodo);
+        Todo updatedTodo = new Todo();
+        updatedTodo.setTodoId(1);
+        updatedTodo.setTodoName("Updated Task");
+        listOfTodos.add(firstTodo);
+        listOfTodos.add(updatedTodo);
+
+        todoService.update(updatedTodo);
         assertThat(Objects.equals(todoService.getListOfTodos(), listOfTodos), equalTo(true));
     }
 }
