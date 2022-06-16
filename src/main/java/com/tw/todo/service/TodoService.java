@@ -12,4 +12,12 @@ public class TodoService {
     public List<Todo> getListOfTodos() {
         return todoList;
     }
+
+    public List<Todo> add(Todo anotherTodo) {
+
+        anotherTodo.setTodoId(todoList.size());
+        todoList.add(anotherTodo);
+
+        return todoList;
+    }
 }

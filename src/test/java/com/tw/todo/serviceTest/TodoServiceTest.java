@@ -27,8 +27,10 @@ class TodoServiceTest {
         TodoService todoService = new TodoService();
         List<Todo> listOfTodos = new ArrayList<Todo>();
 
-        Todo firstNewTodo = new Todo();
-        listOfTodos.addTodo(firstNewTodo);
+        Todo firstTodo = new Todo();
+        todoService.add(firstTodo);
+        firstTodo.setTodoId(listOfTodos.size());
+        listOfTodos.add(firstTodo);
 
         assertThat(Objects.equals(todoService.getListOfTodos(), listOfTodos), equalTo(true));
     }
