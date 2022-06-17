@@ -1,5 +1,6 @@
 package com.tw.todo.service;
 
+import com.tw.exceptions.TodoDoesntExistException;
 import com.tw.todo.model.Todo;
 
 import java.util.ArrayList;
@@ -21,7 +22,18 @@ public class TodoService {
         return todoList;
     }
 
-    public Todo update(Todo updatedTodo) {
+    public Todo update(Todo updatedTodo) throws TodoDoesntExistException {
+
+        boolean flag = true;
+        for(Todo todo: todoList){
+            if(todo.getTodoId() == updatedTodo.getTodoId()){
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+            throw new TodoDoesntExistException();
+        }
 
         todoList.removeIf(todo -> todo.getTodoId() == updatedTodo.getTodoId());
         todoList.add(updatedTodo);
@@ -31,13 +43,23 @@ public class TodoService {
                 return todo;
             }
         }
+
         return null;
     }
 
-    public Todo delete(int todoId) {
-        Todo deletedTodo;
+    public Todo delete(int todoId) throws TodoDoesntExistException {
+        Todo deletedTodo = null;
 
-        deletedTodo = todoList.get(todoId);
+        for(Todo todo: todoList){
+            if(todo.getTodoId() == todoId){
+                deletedTodo = todo;
+            }
+        }
+
+        if(deletedTodo == null){
+            throw new TodoDoesntExistException();
+        }
+
         todoList.removeIf(todo -> todo.getTodoId() == todoId);
 
         return deletedTodo;

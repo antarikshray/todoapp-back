@@ -1,8 +1,10 @@
 package com.tw.todo.serviceTest;
 
+import com.tw.exceptions.TodoDoesntExistException;
 import com.tw.todo.model.Todo;
 import com.tw.todo.service.TodoService;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 class TodoServiceTest {
 
     @Test
-    void shouldBeAbleToGetAListOfTodos(){
+    void shouldBeAbleToGetAListOfTodosWhenOneTodoIsAdded(){
         TodoService todoService = new TodoService();
 
         List<Todo> listOfTodos = new ArrayList<Todo>();
@@ -36,7 +38,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void shouldBeAbleToUpdateAnExistingTodo(){
+    void shouldBeAbleToUpdateAnExistingTodo() throws TodoDoesntExistException {
         TodoService todoService = new TodoService();
         List<Todo> listOfTodos = new ArrayList<>();
 
@@ -57,7 +59,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void shouldBeAbleToDeleteAnExistingTodo(){
+    void shouldBeAbleToDeleteAnExistingTodo() throws TodoDoesntExistException {
         TodoService todoService = new TodoService();
 
         Todo firstTodo = new Todo();
@@ -70,7 +72,7 @@ class TodoServiceTest {
     }
 
     @Test
-    void shouldBeAbleToReturnTheDeletedTodoOnDeletionOfExistingTodo(){
+    void shouldBeAbleToReturnTheDeletedTodoOnDeletionOfExistingTodo() throws TodoDoesntExistException {
         TodoService todoService = new TodoService();
         Todo deletedTodo;
 
@@ -81,5 +83,44 @@ class TodoServiceTest {
         deletedTodo = todoService.delete(secondTodo.getTodoId());
 
         assertThat(Objects.equals(deletedTodo,secondTodo), equalTo(true));
+    }
+
+    @Test
+    void shouldBeAbleToGetAListOfTodosWhenTwoTodosAreAdded(){
+        TodoService todoService = new TodoService();
+        List<Todo> listOfTodos = new ArrayList<Todo>();
+
+        Todo firstTodo = new Todo();
+        Todo secondTodo = new Todo();
+        todoService.add(firstTodo);
+        todoService.add(secondTodo);
+        listOfTodos.add(firstTodo);
+        listOfTodos.add(secondTodo);
+
+        assertThat(Objects.equals(todoService.getListOfTodos(), listOfTodos), equalTo(true));
+    }
+
+    @Test
+    void shouldThrowAnExceptionIfTodoDoesntExistWhileUpdating(){
+        TodoService todoService = new TodoService();
+
+        Todo firstTodo = new Todo();
+        Todo updatedTodo = new Todo();
+        updatedTodo.setTodoId(5);
+        todoService.add(firstTodo);
+
+        assertThrows(TodoDoesntExistException.class, () -> todoService.update(updatedTodo));
+    }
+
+    @Test
+    void shouldThrowAnExceptionIfTodoDoesntExistWhileDeleting(){
+        TodoService todoService = new TodoService();
+
+        Todo firstTodo = new Todo();
+        Todo secondTodo = new Todo();
+        secondTodo.setTodoId(4);
+        todoService.add(firstTodo);
+
+        assertThrows(TodoDoesntExistException.class, () -> todoService.delete(secondTodo.getTodoId()));
     }
 }
