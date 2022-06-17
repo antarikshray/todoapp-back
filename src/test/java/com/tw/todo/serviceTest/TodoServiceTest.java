@@ -55,4 +55,17 @@ class TodoServiceTest {
         todoService.update(updatedTodo);
         assertThat(Objects.equals(todoService.getListOfTodos(), listOfTodos), equalTo(true));
     }
+
+    @Test
+    void shouldBeAbleToDeleteAnExistingTodo(){
+        TodoService todoService = new TodoService();
+
+        Todo firstTodo = new Todo();
+        Todo secondTodo = new Todo();
+        todoService.add(firstTodo);
+        todoService.add(secondTodo);
+        todoService.delete(secondTodo.getTodoId());
+
+        assertThat(todoService.getListOfTodos().contains(secondTodo), equalTo(false));
+    }
 }
