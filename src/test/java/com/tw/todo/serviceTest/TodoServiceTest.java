@@ -68,4 +68,18 @@ class TodoServiceTest {
 
         assertThat(todoService.getListOfTodos().contains(secondTodo), equalTo(false));
     }
+
+    @Test
+    void shouldBeAbleToReturnTheDeletedTodoOnDeletionOfExistingTodo(){
+        TodoService todoService = new TodoService();
+        Todo deletedTodo;
+
+        Todo firstTodo = new Todo();
+        Todo secondTodo = new Todo();
+        todoService.add(firstTodo);
+        todoService.add(secondTodo);
+        deletedTodo = todoService.delete(secondTodo.getTodoId());
+
+        assertThat(Objects.equals(deletedTodo,secondTodo), equalTo(true));
+    }
 }

@@ -33,4 +33,13 @@ public class TodoService {
         }
         return null;
     }
+
+    public Todo delete(int todoId) {
+        Todo deletedTodo;
+
+        deletedTodo = todoList.get(todoId);
+        todoList.removeIf(todo -> todo.getTodoId() == todoId);
+
+        return deletedTodo;
+    }
 }
