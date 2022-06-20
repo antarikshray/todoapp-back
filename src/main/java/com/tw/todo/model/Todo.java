@@ -4,6 +4,7 @@ public class Todo {
     private int todoId;
     private String todoName;
     private String todoDescription;
+    private boolean completed;
     private String priority;
 
     public int getTodoId() {
@@ -36,5 +37,13 @@ public class Todo {
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

@@ -5,6 +5,13 @@ plugins {
 	id "org.flywaydb.flyway" version "8.5.12"
 }
 
+flyway {
+	driver = "org.postgresql.Driver"
+	url = 'jdbc:postgresql://localhost:5432/tododb'
+	user = 'postgres'
+	password = 'antaneel'
+}
+
 group = 'com.tw'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
